@@ -1,6 +1,8 @@
 # FluencyMed-Pub
 Increasing doctor capacity and patient care quality. We enrich physician practices and enhance patient telehealth experience. Fluency Med is creating a healthier, more efficient future in healthcare.
 
+The code is private for development purposes, for collaboration, please reach out to me at hshum2018@gmail.com
+
 Business Model:
 
 The business model for the Fluency Med services is a dual strategy involving both a paid subscription model for patients and a business-to-business (B2B) model for healthcare providers. Services include billing, documentation, administrative work, appointment processes, and diagnostic assistance via semantic search on knowledge database. We focus on selling the service to independent providers, associations, and healthcare software providers, and we help affluent individuals with their specific needs on getting to know their medical needs better while making their process more efficient.
