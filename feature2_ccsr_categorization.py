@@ -5,7 +5,7 @@ import openai
 from feature1_clinical_note_summarization import patient_note_analysis_output
 
 ##### Datasets ############################################################################################################
-ccsr_df_feather = pd.read_feather('datasets/DXCCSR/DXCCSR-Reference-File-v2023-1.feather')
+ccsr_df_feather = pd.read_feather('DXCCSR-Reference-File-v2023-1.feather')
 
 ##### Settings ############################################################################################################
 def open_file(filepath):
