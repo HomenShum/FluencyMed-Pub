@@ -3,6 +3,37 @@ Increasing doctor capacity and patient care quality. We enrich physician practic
 
 The code is private for development purposes, for collaboration, please reach out to me at hshum2018@gmail.com
 
+Inspiration
+When my family needs to find a doctor for a random symptom that is in dire need to get treatment, I frequently found ourselves turmoiling over the time wasted on booking appointments between each and every part of the medical department. Sometimes, the symptom magically disappears, and we no longer need to attend the appointment. Then sometimes the symptoms would come back, and my family would need immediate medical attention. However, due to our reluctance to face the friction created by the long dragging appointment system for hospitals, we would have to start from ground zero in order to get a primary physician, then get a referral after a series of test and questionnaires, and then not get the right doctor, and then ultimately loop around for at least a few months until we finally find the right department, hear about the right terminologies used to describe our symptoms and issues, and get the medications needed for treatment.
+
+This knowledge gap between patient and physician is too wide and the appointment process to get to know what the heck is wrong is us takes too long. If the symptom already subsided/went to hibernation during the diagnosis process, then it would be left neglected due to the need to take care of other priorities in this increasingly complex and busy society that we are living in.
+
+Therefore, the call to action led me to create this experimental MVP to help a potential patient in dire need to figure out what is going on with them and create a summary that is concise and easy to communicate to the physician using 370K patient-physician dialogues and the 35 million articles publicized on PubMed website.
+
+What it does
+Takes in patient's description of everything that is wrong
+Analysis and output summary that is easy to read in order to find the most important information: such as the patient information, symptoms and conditions, concerns, medical history and investigations, and recommended medical department to contact.
+Use the output to generate Clinical Classifications Software Refined (CCSR) categories, which is then used to search for relevant articles from PubMed that can supplement patient and physicians on knowledge needed to understand the problem that they encounter.
+The output is also used to perform a similarity search on a pinecone database that has 370K total patient and physician diagnosis dialogues. The most similar dialogue is then used to help understand the situation and quote out any medical diagnosis that would accelerate the identification of the patient's symptoms.
+How we built it
+GPT 3.5 Turbo is used to generate the analysis summary for all aspect of the application
+Used llama_index to upsert the embeddings of the 370K dialogues onto Pinecone Vector Database
+Used langchain to perform the similarity search using the patient note analysis on the Pinecone database
+Used Streamlit to host the user interface.
+Challenges we ran into
+The existing database would need further investment and development in order to scale larger and be updated with the more latest information available for medical diagnosis support. Existing solution to pull full text articles from PubMed is poor, and so I was not able to extract key information from the recommended full text articles to deduce the research time needed to get accessible medical domain knowledge tailored to patient need, yet.
+
+Accomplishments that we're proud of
+Proud of the application's capability to understand and retrieve the most relevant information using real world case scenario to help patients with their urgent needs and assist in communication.
+
+What we learned
+It would not be feasible to use GPT to perform diagnosis directly as it can push away the physicians, especially independent practices, since it would take over their jobs. Instead, a supportive function that can enhance patient-physician communication and knowledge is more advanced in the need of the current society.
+
+What's next for Fluency Med x Semantic Scholar
+To further develop the generative AI use cases in the medical field and better assist in the physician side of things to save their time and allow them ability to provide better cares to the patients!
+
+## Future Roadmap:
+
 Business Model:
 
 The business model for the Fluency Med services is a dual strategy involving both a paid subscription model for patients and a business-to-business (B2B) model for healthcare providers. Services include billing, documentation, administrative work, appointment processes, and diagnostic assistance via semantic search on knowledge database. We focus on selling the service to independent providers, associations, and healthcare software providers, and we help affluent individuals with their specific needs on getting to know their medical needs better while making their process more efficient.
