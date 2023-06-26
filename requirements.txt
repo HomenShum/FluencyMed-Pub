@@ -1,0 +1,5 @@
+sacremoses == 0.0.53
+streamlit
+streamlit_chat
+openai
+langchain
