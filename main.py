@@ -18,9 +18,6 @@ def open_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as infile:
         return infile.read()
 
-openai.organization = "org-uORaE3sY8YDfC5uDwRPP9uu5"
-openai.api_key = open_file('openaiapikey.txt')
-
 # Pinecone Settings
 load_dotenv()
 
@@ -36,6 +33,7 @@ docsearch = Pinecone.from_existing_index(index_name, embeddings)
 
 ### Use streamlit to ask user input for openai.api_key
 openai.api_key = st.text_input("Enter your OpenAI API Key", value="", type="password")
+
 
 ##### Functions ############################################################################################################
 @tenacity.retry(
@@ -159,6 +157,14 @@ def get_abstract(paper):
             abstract = ' '.join(abstract)
     return abstract
 
+def format_text(text):
+    formatted_text = "\n".join(f"- {item.strip()}" for item in text.split("-")[1:])
+    if "diagnostic information" in text.lower():
+        return "Medical advice or diagnostic information based on similar real diagnostics:\n" + formatted_text
+    else:
+        return formatted_text
+
+
 ##### Main #####################################
 st.sidebar.header("Recommended PubMed Articles")
 
@@ -177,25 +183,37 @@ if 'generated' not in st.session_state:
 if 'past' not in st.session_state:
     st.session_state['past'] = []
 
-if openai.api_key is not None:
+patient_note = get_patient_notes()
 
-    patient_note = get_patient_notes()
+# Add reset chat button
+if st.button('Reset Chat'):
+    st.session_state['generated'] = []
+    st.session_state['past'] = []
 
-    if patient_note:
+# Analyze patient notes button
+if st.button('Analyze Patient Notes'):  
+
+    if openai.api_key and patient_note:  # Only run if both API key and patient notes are provided
+
         # Run GPT model to analyze patient's note
         result, input_patient_note_analysis, ccsr_categories_list_list = analyze_patient_note(patient_note)
-        #store the output
+
+        # Format the result and CCSR categories as a bulleted list
+        formatted_result = format_text(result)
+        formatted_ccsr_categories = "CCSR Categories Identified:\n" + "\n".join(f"- {item}" for item in ccsr_categories_list_list)
+
+        # Store the output
         st.session_state.past.append(patient_note) 
-        st.session_state.generated.append(result)
+        st.session_state.generated.append(formatted_result)  # Store the formatted result
         st.session_state.generated.append(input_patient_note_analysis)
-        st.session_state.generated.append(str(ccsr_categories_list_list))
+        st.session_state.generated.append(formatted_ccsr_categories)  # Store the formatted categories
 
         if st.session_state['generated']:
             for i in range(len(st.session_state['past'])-1, -1, -1):
-                message(st.session_state['generated'][i], key=str(i))
-                message(st.session_state['generated'][i+1], key=str(i+1))
-                message(st.session_state['generated'][i+2], key=str(i+2))
                 message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
+                message(st.session_state['generated'][3*i], key=str(3*i))  # Display the formatted result
+                message(st.session_state['generated'][3*i+1], key=str(3*i+1))
+                message(st.session_state['generated'][3*i+2], key=str(3*i+2))  # Display the formatted categories
 
         # Perform PubMed search for each category
         for category in ccsr_categories_list_list:
@@ -208,9 +226,7 @@ if openai.api_key is not None:
                 authors = ', '.join([author.get('LastName', '') for author in author_list])
                 abstract = get_abstract(paper)
                 
-                ### show article in sidebar
-                st.sidebar.subheader(f'Title {title}')
+                # Show article in sidebar
+                st.sidebar.subheader(f'Title: {title}')
                 st.sidebar.write(f'Authors: {authors}')
                 st.sidebar.write(f'Abstract: {abstract}')
-
-
