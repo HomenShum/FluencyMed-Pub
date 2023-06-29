@@ -1,8 +1,6 @@
 import openai
 import re
 import tenacity
-from feature2_ccsr_categorization import search_index, ccsr_df_feather
-from feature1_clinical_note_summarization import patient_note_analysis
 import time
 import os
 import pinecone
@@ -190,6 +188,9 @@ if openai.api_key:
 
         if openai.api_key and patient_note:  # Only run if both API key and patient notes are provided
 
+            from feature2_ccsr_categorization import search_index, ccsr_df_feather
+            from feature1_clinical_note_summarization import patient_note_analysis
+            
             # Run GPT model to analyze patient's note
             result, input_patient_note_analysis, ccsr_categories_list_list = analyze_patient_note(patient_note)
 
