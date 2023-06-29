@@ -3,17 +3,13 @@ import numpy as np
 from numpy.linalg import norm
 import openai
 from feature1_clinical_note_summarization import patient_note_analysis_output
+import streamlit as st
 
 ##### Datasets ############################################################################################################
-ccsr_df_feather = pd.read_feather('DXCCSR-Reference-File-v2023-1.feather')
+ccsr_df_feather = pd.read_feather('datasets/DXCCSR/DXCCSR-Reference-File-v2023-1.feather')
 
 ##### Settings ############################################################################################################
-def open_file(filepath):
-    with open(filepath, 'r', encoding='utf-8') as infile:
-        return infile.read()
-
-# Set OpenAI API Key
-# openai.api_key = open_file('openaiapikey.txt')
+openai.api_key = st.secrets["openai_api_key"]
 
 ##### Functions ############################################################################################################
 def gpt3_embedding(content, engine='text-embedding-ada-002'):
