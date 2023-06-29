@@ -8,7 +8,6 @@ import os
 import pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Pinecone
-from dotenv import load_dotenv
 import streamlit as st
 from streamlit_chat import message
 from Bio import Entrez
@@ -19,8 +18,6 @@ def open_file(filepath):
         return infile.read()
 
 # Pinecone Settings
-load_dotenv()
-
 os.environ['PINECONE_API_KEY'] = 'd0dc3dbd-8599-4d68-9816-6a0d74a290c5'
 os.environ['PINECONE_ENVIRONMENT'] = 'us-west4-gcp'
 pinecone.init(
