@@ -6,7 +6,7 @@ from feature1_clinical_note_summarization import patient_note_analysis_output
 import streamlit as st
 
 ##### Datasets ############################################################################################################
-ccsr_df_feather = pd.read_feather('datasets/DXCCSR/DXCCSR-Reference-File-v2023-1.feather')
+ccsr_df_feather = pd.read_feather('DXCCSR-Reference-File-v2023-1.feather')
 
 ##### Settings ############################################################################################################
 openai.api_key = st.secrets["openai_api_key"]
