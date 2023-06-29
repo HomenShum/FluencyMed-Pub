@@ -13,7 +13,7 @@ def open_file(filepath):
         return infile.read()
 
 
-openai.api_key = open_file('openaiapikey.txt')
+# openai.api_key = open_file('openaiapikey.txt')
 
 system_prompt = """ You are an AI assistant specialized in biomedical topics. You are provided with a text description from a patient's screening notes. Analyze the patient's notes and provide information useful for physicians. Here are your instructions:
 
