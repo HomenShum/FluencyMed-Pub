@@ -13,7 +13,7 @@ def open_file(filepath):
         return infile.read()
 
 # Set OpenAI API Key
-openai.api_key = open_file('openaiapikey.txt')
+# openai.api_key = open_file('openaiapikey.txt')
 
 ##### Functions ############################################################################################################
 def gpt3_embedding(content, engine='text-embedding-ada-002'):
