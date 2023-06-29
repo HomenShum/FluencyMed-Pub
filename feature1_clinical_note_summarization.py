@@ -1,5 +1,6 @@
 import openai
 import json
+import streamlit as st
 
 """
 This program can take patient_id as input and return the corresponding patient's notes from the database.
@@ -8,12 +9,8 @@ The notes can be used as input for the GPT model to generate an analysis that is
 
 ##### Settings ############################################################################################################
 
-def open_file(filepath):
-    with open(filepath, 'r', encoding='utf-8') as infile:
-        return infile.read()
+openai.api_key = st.secrets["openai_api_key"]
 
-
-# openai.api_key = open_file('openaiapikey.txt')
 
 system_prompt = """ You are an AI assistant specialized in biomedical topics. You are provided with a text description from a patient's screening notes. Analyze the patient's notes and provide information useful for physicians. Here are your instructions:
 
