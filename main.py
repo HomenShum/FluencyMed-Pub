@@ -26,7 +26,7 @@ pinecone.init(
 index_name = 'langchainpdfchat'
 embeddings = OpenAIEmbeddings()
 
-@st.experimental_memo
+@st.experimental_singleton
 def load_pinecone_existing_index():
     pass
     docsearch = Pinecone.from_existing_index(index_name, embeddings)
