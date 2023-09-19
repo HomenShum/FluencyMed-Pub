@@ -58,7 +58,7 @@ def gpt_completion(prompt, model='gpt-4', temp=0, stop=["<<END>>"]):
     return text
 
 def analyze_dictation_note(dictation_note):
-    start_time = time()
+    start_time =  time.time()
 
     prompt = dictation_note_analysis_user
 
@@ -89,7 +89,7 @@ def analyze_dictation_note(dictation_note):
 
     result = gpt_completion(prompt)
 
-    end = time()
+    end = time.time()
     print(f"Runtime of the program is {end - start_time}")
 
     return result, input_patient_note_analysis, ccsr_categories_list_list
