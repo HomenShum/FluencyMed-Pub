@@ -42,58 +42,29 @@ docsearch = load_pinecone_existing_index()
     retry=tenacity.retry_if_exception_type(openai.error.APIError),
     reraise=True,
 )
-def gpt_completion(
-    prompt,
-    engine="gpt-4",
-    temp=0,  # set at 0 to ensure consistent completion, increase accuracy along with UUID
-    top_p=1.0,
-    tokens=1000,
-    freq_pen=0.25,
-    pres_pen=0.0,
-    stop=["<<END>>"],
-):
+def gpt_completion(prompt, model='gpt-4', temp=0, stop=["<<END>>"]):
     prompt = prompt.encode(encoding="ASCII", errors="ignore").decode()
     response = openai.ChatCompletion.create(
-        model=engine,
+        model=model,
         messages=[
-            {"role": "system", "content":   
-                    """You are an AI assistant specialized in biomedical topics. You are provided with a text description from a patient's screening notes. Analyze the patient's notes and ask follow up question. Here are your instructions:
-
-                    - Highlight medical advice or diagnostic information from sample dialogues dataset. 
-
-                    - Ensure the output is in markdown bullet point format for clarity.
-
-                    - Encourage the user to consult a healthcare professional for advice."""},
+            {"role": "system", "content": dictation_note_analysis },
             {"role": "user", "content": prompt},
         ],
-        max_tokens=tokens,
         temperature=temp,
-        top_p=top_p,
-        frequency_penalty=freq_pen,
-        presence_penalty=pres_pen,
         stop=stop,
     )
     text = response["choices"][0]["message"]["content"].strip()
     text = re.sub("\s+", " ", text)
     return text
 
-def analyze_patient_note(patient_note):
-    start_time = time.time()
+def analyze_dictation_note(dictation_note):
+    start_time = time()
 
-    prompt = """- Ask the patient follow up diagnosis question using the patient notes and Clinical Classifications Software Refined (CCSR) categories. 
-                
-            - Highlight medical advice or diagnostic information from ~370,000 sample patient physician dialogues dataset. 
+    prompt = dictation_note_analysis_user
 
-            - The output should be detailed and gives physicians a top down view of the medical situation quickly. 
-            
-            - Encourage the user to consult a healthcare professional for advice.
+    input_var_1 = "Dictation Notes: \n"
 
-            \n
-            """
-
-    input_var_1 = "Patient Notes: \n"
-
-    input_patient_note_analysis = patient_note_analysis(patient_note)
+    input_patient_note_analysis = gpt_completion(dictation_note)
 
     input_var_2 = "Clinical Classifications Software Refined (CCSR) categories listed below: \n"
 
@@ -118,7 +89,7 @@ def analyze_patient_note(patient_note):
 
     result = gpt_completion(prompt)
 
-    end = time.time()
+    end = time()
     print(f"Runtime of the program is {end - start_time}")
 
     return result, input_patient_note_analysis, ccsr_categories_list_list
