@@ -167,7 +167,7 @@ if st.button('Analyze Patient Notes'):
     if openai.api_key and patient_note:  # Only run if both API key and patient notes are provided
 
         # Run GPT model to analyze patient's note
-        result, input_patient_note_analysis, ccsr_categories_list_list = analyze_patient_note(patient_note)
+        result, input_patient_note_analysis, ccsr_categories_list_list = analyze_dictation_note(patient_note)
 
         # Format the result and CCSR categories as a bulleted list
         formatted_result = format_text(result)
