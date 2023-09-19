@@ -34,6 +34,15 @@ def load_pinecone_existing_index():
 
 docsearch = load_pinecone_existing_index()
 
+# read from file prompts\system\dictation_note_analysis.txt
+with open("dictation_note_analysis.txt", 'r') as user_file:
+    dictation_note_analysis = user_file.read()
+    print(dictation_note_analysis)
+
+# read from file prompts\user\dictation_note_analysis_user.txt
+with open("dictation_note_analysis_user.txt", 'r') as user_file:
+    dictation_note_analysis_user = user_file.read()
+    print(dictation_note_analysis_user)
 
 ##### Functions ############################################################################################################
 @tenacity.retry(
