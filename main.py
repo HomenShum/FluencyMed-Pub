@@ -44,7 +44,7 @@ docsearch = load_pinecone_existing_index()
 )
 def gpt_completion(
     prompt,
-    engine="gpt-3.5-turbo-0613",
+    engine="gpt-4",
     temp=0,  # set at 0 to ensure consistent completion, increase accuracy along with UUID
     top_p=1.0,
     tokens=1000,
